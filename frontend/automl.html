@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexus AutoML</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #1a1a1a;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --muted: #888;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --gradient: linear-gradient(135deg, #3b82f6, #a855f7);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--gradient);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .logo-text span {
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .btn-dashboard {
+      background: var(--text);
+      color: var(--bg) !important;
+      font-weight: 600;
+      padding: 8px 20px !important;
+      border-radius: 8px !important;
+      transition: opacity 0.2s !important;
+    }
+
+    .btn-dashboard:hover {
+      opacity: 0.85;
+    }
+
+    /* STEPPER */
+    .stepper {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      padding: 36px 32px 0;
+      margin-top: 64px;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeUp 0.5s forwards;
+    }
+
+    .step:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .step:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .step:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .step:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .step-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 20px;
+      transition: all 0.3s;
+      background: var(--surface);
+    }
+
+    .step.active .step-icon {
+      border-color: var(--blue);
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--blue);
+      box-shadow: 0 0 24px rgba(59, 130, 246, 0.3);
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .step.active .step-label {
+      color: var(--text);
+    }
+
+    /* CONNECTOR LINE */
+    .stepper-wrap {
+      position: relative;
+      padding-top: 36px;
+      margin-top: 64px;
+    }
+
+    .stepper-line {
+      position: absolute;
+      top: 64px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 520px;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+
+    .stepper-line-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gradient);
+      transition: width 0.6s ease;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 72px 32px 48px;
+      animation: fadeUp 0.6s 0.5s forwards;
+      opacity: 0;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .gradient-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* DROP ZONE */
+    .dropzone-wrap {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 0 32px 72px;
+      animation: fadeUp 0.6s 0.7s forwards;
+      opacity: 0;
+    }
+
+    .dropzone {
+      border: 1.5px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 64px 48px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropzone::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(59, 130, 246, 0.06), transparent);
+      pointer-events: none;
+    }
+
+    .dropzone:hover,
+    .dropzone.dragover {
+      border-color: var(--blue);
+      background: rgba(59, 130, 246, 0.04);
+    }
+
+    .dropzone:hover::before {
+      background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(59, 130, 246, 0.12), transparent);
+    }
+
+    .drop-icon-wrap {
+      width: 72px;
+      height: 72px;
+      background: var(--surface2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 30px;
+    }
+
+    .drop-icon-wrap svg {
+      color: var(--blue);
+    }
+
+    .dropzone h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .dropzone p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .btn-browse {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: 100px;
+      padding: 14px 32px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-browse:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-browse svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* FEATURE CARDS */
+    .features {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px 100px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      animation: fadeUp 0.6s 0.9s forwards;
+      opacity: 0;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+    }
+
+    .feature-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .feature-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* FILE INPUT HIDDEN */
+    #fileInput {
+      display: none;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+    }
+
+    /* configuration UI */
+    .hidden {
+      display: none;
+    }
+
+    #configSection {
+      padding: 32px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeUp 0.6s forwards;
+      opacity: 0;
+    }
+
+    #configSection h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #configSection label {
+      display: block;
+      margin: 20px 0 10px 0;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    #targetSelect {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 20px;
+      padding: 12px 16px;
+      background: var(--surface2);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #targetSelect:hover {
+      border-color: var(--blue);
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    #targetSelect:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
+    }
+
+    #targetSelect option {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    #output {
+      white-space: pre-wrap;
+      text-align: left;
+      max-height: 500px;
+      overflow: auto;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 24px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+      font-family: 'Courier New', monospace;
+      word-break: break-word;
+    }
+
+    .result-section {
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .result-section:last-child {
+      border-bottom: none;
+    }
+
+    .result-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .result-label {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .result-value {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .model-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .model-name {
+      width: 150px;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .bar-container {
+      flex: 1;
+      height: 6px;
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--gradient);
+      border-radius: 3px;
+    }
+
+    .model-score {
+      width: 80px;
+      text-align: right;
+      color: var(--blue);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .best-badge {
+      display: inline-block;
+      background: var(--blue);
+      color: var(--bg);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--blue);
+      color: var(--bg);
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      margin-top: 12px;
+    }
+
+    .download-btn:hover {
+      opacity: 0.85;
+    }
+
+    #output::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #output::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #output::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.4);
+      border-radius: 3px;
+    }
+
+    #output::-webkit-scrollbar-thumb:hover {
+      background: rgba(59, 130, 246, 0.6);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* GLOWING BG */
+    .bg-glow {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(59, 130, 246, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 720px) {
+      .stepper {
+        gap: 24px;
+      }
+
+      .step-label {
+        display: none;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .stepper-line {
+        width: 280px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-glow"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <div class="logo-text">Nexus <span>AutoML</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#">Documentation</a>
+      <a href="#">API</a>
+      <a href="#" class="btn-dashboard">Dashboard</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- STEPPER -->
+    <div class="stepper-wrap">
+      <div class="stepper-line">
+        <div class="stepper-line-fill" id="stepperFill"></div>
+      </div>
+      <div class="stepper">
+        <div class="step active" data-step="0">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.338-2.32 5.75 5.75 0 0 1 1.84 11.095H6.75Z" />
+            </svg>
+          </div>
+          <span class="step-label">Upload Data</span>
+        </div>
+        <div class="step" data-step="1">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+            </svg>
+          </div>
+          <span class="step-label">Configuration</span>
+        </div>
+        <div class="step" data-step="2">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z" />
+            </svg>
+          </div>
+          <span class="step-label">AutoML Training</span>
+        </div>
+        <div class="step" data-step="3">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+            </svg>
+          </div>
+          <span class="step-label">Model Results</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Machine Learning,<br><span class="gradient-text">Automated.</span></h1>
+      <p>Upload your raw dataset and let our engine handle cleaning, feature engineering, and model selection. Get
+        production-ready models in minutes.</p>
+    </section>
+
+    <!-- DROP ZONE -->
+    <div class="dropzone-wrap">
+      <div class="dropzone" id="dropzone">
+        <div class="drop-icon-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24"
+            stroke="#3b82f6" stroke-width="1.6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 2.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+          </svg>
+        </div>
+        <h2>Drop your dataset here</h2>
+        <p>Supports CSV, Excel, and JSON files up to 500MB.<br>Data is encrypted in transit and at rest.</p>
+        <button class="btn-browse" onclick="document.getElementById('fileInput').click()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.338-2.32 5.75 5.75 0 0 1 1.84 11.095H6.75Z" />
+          </svg>
+          Browse Files
+        </button>
+      </div>
+      <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json">
+    </div>
+
+    <!-- CONFIGURATION SECTION -->
+    <div id="configSection" class="config-section hidden">
+      <h2>Configure AutoML</h2>
+      <div style="margin-top: 32px;">
+        <label for="targetSelect">Target Column:</label>
+        <select id="targetSelect"></select>
+        <div style="margin-top: 28px;">
+          <button id="runBtn" class="btn-dashboard">Run AutoML</button>
+        </div>
+      </div>
+      <div id="output" style="display:none; margin-top: 32px;"></div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#3b82f6" stroke-width="1.7">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+          </svg>
+        </div>
+        <h3>Secure Environment</h3>
+        <p>Your data is processed in isolated containers and never stored permanently.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#3b82f6" stroke-width="1.7">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+          </svg>
+        </div>
+        <h3>Blazing Fast</h3>
+        <p>Distributed processing engine evaluates hundreds of models in parallel.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#3b82f6" stroke-width="1.7">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
+          </svg>
+        </div>
+        <h3>Advanced Ensembles</h3>
+        <p>Automatically combines top models for superior predictive performance.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Stepper fill width map
+    const fillMap = { 0: '0%', 1: '33.3%', 2: '66.6%', 3: '100%' };
+    const steps = document.querySelectorAll('.step');
+    const fill = document.getElementById('stepperFill');
+
+    steps.forEach(step => {
+      step.addEventListener('click', () => {
+        steps.forEach(s => s.classList.remove('active'));
+        step.classList.add('active');
+        fill.style.width = fillMap[step.dataset.step];
+      });
+    });
+
+    // Drag & drop
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files[0]) handleFile(fileInput.files[0]);
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function downloadReport(bestModel, bestScore, report) {
+      const timestamp = new Date().toLocaleString();
+      const content = `AutoML Report\n${'='.repeat(50)}\n\nGenerated: ${timestamp}\n\nBest Model: ${bestModel}\nBest Score: ${bestScore}\n\n${'='.repeat(50)}\n\n${report}`;
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `automl-report-${Date.now()}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('✓ Report downloaded');
+    }
+
+    let currentFile = null;
+
+    function handleFile(file) {
+      currentFile = file;
+      const allowed = ['csv', 'xlsx', 'xls', 'json'];
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (!allowed.includes(ext)) {
+        showToast('⚠️ Unsupported file type. Use CSV, Excel, or JSON.');
+        return;
+      }
+      const sizeMB = (file.size / 1024 / 1024).toFixed(1);
+      showToast(`✓ "${file.name}" loaded (${sizeMB} MB) — ready to configure.`);
+
+      // parse header for CSV to populate target selector
+      if (ext === 'csv') {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const text = e.target.result;
+          const firstLine = text.split(/\r?\n/)[0];
+          const cols = firstLine.split(',');
+          const select = document.getElementById('targetSelect');
+          select.innerHTML = cols.map(c => `<option value="${c.trim()}">${c.trim()}</option>`).join('');
+          document.getElementById('configSection').classList.remove('hidden');
+        };
+        reader.readAsText(file);
+      } else {
+        document.getElementById('configSection').classList.remove('hidden');
+      }
+
+      // Advance stepper to configuration stage
+      steps.forEach(s => s.classList.remove('active'));
+      steps[1].classList.add('active');
+      fill.style.width = fillMap[1];
+    }
+
+    document.getElementById('runBtn').addEventListener('click', async () => {
+      if (!currentFile) {
+        showToast('Please select a file first.');
+        return;
+      }
+      const target = document.getElementById('targetSelect').value;
+
+      // show training progress
+      steps.forEach(s => s.classList.remove('active'));
+      steps[2].classList.add('active');
+      fill.style.width = fillMap[2];
+
+      const outputEl = document.getElementById('output');
+      outputEl.style.display = 'block';
+      outputEl.innerHTML = '<div style="text-align: center; color: var(--muted);">Running AutoML... please wait</div>';
+      const form = new FormData();
+      form.append('file', currentFile);
+      form.append('target_column', target);
+
+      try {
+        const resp = await fetch('http://localhost:8000/automl', {
+          method: 'POST',
+          body: form,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (!resp.ok) {
+          const errorData = await resp.json().catch(() => ({}));
+          throw new Error(errorData.error || `HTTP Error: ${resp.status}`);
+        }
+
+        const data = await resp.json();
+
+        // Format output nicely
+        const maxScore = Math.max(...Object.values(data.models));
+        let html = '';
+
+        // Best Model Section
+        html += `<div class="result-section">
+          <div class="result-title">🏆 Best Model</div>
+          <div class="result-item">
+            <span class="result-label">Model:</span>
+            <span class="result-value">${data.best_model}</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Score:</span>
+            <span class="result-value">${data.best_score.toFixed(4)}</span>
+          </div>
+        </div>`;
+
+        // Model Performance Section
+        html += `<div class="result-section">
+          <div class="result-title">📊 Model Performance</div>`;
+        Object.entries(data.models).forEach(([name, score]) => {
+          const percentage = (score / maxScore) * 100;
+          const isBest = name === data.best_model;
+          html += `<div class="model-bar">
+            <div class="model-name">${name}${isBest ? '<span class="best-badge">Best</span>' : ''}</div>
+            <div class="bar-container">
+              <div class="bar-fill" style="width: ${percentage}%"></div>
+            </div>
+            <div class="model-score">${score.toFixed(4)}</div>
+          </div>`;
+        });
+        html += `</div>`;
+
+        // Report Section
+        if (data.report) {
+          const reportLines = data.report.split('\n');
+          html += `<div class="result-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="result-title">📋 Report</div>
+              <button class="download-btn" onclick="downloadReport('${data.best_model}', '${data.best_score.toFixed(4)}', '${data.report.replace(/'/g, "\\'")}')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download
+              </button>
+            </div>
+            <div style="font-family: 'Courier New', monospace; white-space: pre-wrap; color: var(--muted); font-size: 12px;">`;
+          reportLines.forEach(line => {
+            if (line.trim()) {
+              html += line + '\n';
+            }
+          });
+          html += `</div></div>`;
+        }
+
+        outputEl.innerHTML = html;
+
+        // results stage
+        steps.forEach(s => s.classList.remove('active'));
+        steps[3].classList.add('active');
+        fill.style.width = fillMap[3];
+        showToast('✓ AutoML training complete!');
+      } catch (err) {
+        outputEl.innerHTML = `<div style="color: #ff6b6b;"><strong>❌ Error:</strong> ${err.message}</div>`;
+        showToast('⚠️ Error running AutoML');
+      }
+    });
+  </script>
+</body>
+
+</html>

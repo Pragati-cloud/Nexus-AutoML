@@ -1,0 +1,597 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #0A0F1A, #05070B);
+      color: #fff;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #4F8CFF, #6C63FF, #A855F7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      color: #A1A1AA;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+
+    .loader {
+      margin: 25px auto;
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top: 4px solid #4F8CFF;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 20px rgba(79,140,255,0.5);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      background: linear-gradient(90deg, #4F8CFF, #6C63FF, #A855F7);
+      color: #fff;
+      transition: 0.3s ease;
+      box-shadow: 0 0 15px rgba(79,140,255,0.4);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(168,85,247,0.6);
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🚧 Working on it</h1>
+    <h1 class="gradient-text">Coming Soon</h1>
+
+    <div class="loader"></div>
+
+    <p>
+      We’re building something amazing for you.<br>
+      This feature will be available soon!
+    </p>
+
+    <!-- Change href to your actual page -->
+    <a href="Index.html" class="btn">⬅ Back to Home</a>
+  </div>
+</body>
+</html>
+<!--<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation - Nexus AutoML</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="Style.css" />
+  <link rel="stylesheet" href="documentation.css" />
+</head>
+
+<body>
+
+  <div class="bg-glow"></div>
+
+  
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <div class="logo-text">Nexus <span>AutoML</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="documentation.html" class="nav-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+        </svg>
+        Documentation
+      </a>
+      <a href="#" class="nav-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+        </svg>
+        API
+      </a>
+      <a href="index.html" class="btn-dashboard">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+        </svg>
+        Back to App
+      </a>
+    </div>
+  </nav>
+
+  <main class="documentation">
+   
+    <section class="doc-hero">
+      <div class="doc-container">
+        <h1>Documentation</h1>
+        <p>Everything you need to know about Nexus AutoML</p>
+      </div>
+    </section>
+
+ 
+    <div class="doc-layout">
+      <aside class="doc-sidebar">
+        <nav class="doc-nav">
+          <div class="doc-nav-section">
+            <h3>Documentation</h3>
+            <ul>
+              <li><a href="#overview" class="active">Overview</a></li>
+              <li><a href="#api-endpoint">API Endpoint</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <div class="doc-content">
+    
+        <section id="overview" class="doc-section">
+          <h2>Overview</h2>
+          <p>Nexus AutoML is a state-of-the-art automated machine learning platform that simplifies the entire ML workflow. Upload your dataset, select your target variable, and let our intelligent engine handle the rest.</p>
+          
+          <div class="info-card">
+            <div class="info-icon">💡</div>
+            <div>
+              <h4>What is AutoML?</h4>
+              <p>Automated Machine Learning (AutoML) automates the process of applying machine learning to real-world problems. It handles data preprocessing, feature engineering, model selection, and hyperparameter tuning automatically.</p>
+            </div>
+          </div>
+
+          <h3>Key Benefits</h3>
+          <ul class="doc-list">
+            <li><strong>No Coding Required:</strong> User-friendly interface accessible to non-technical users</li>
+            <li><strong>Time-Saving:</strong> Get production-ready models in minutes instead of days</li>
+            <li><strong>Multiple Models:</strong> Automatically trains and compares various algorithms</li>
+            <li><strong>Best Practices:</strong> Built-in cross-validation and performance metrics</li>
+            <li><strong>Scalable:</strong> Handles datasets from small to enterprise-scale</li>
+          </ul>
+        </section>
+
+      
+        <section id="quick-start" class="doc-section">
+          <h2>Quick Start</h2>
+          <p>Get started with Nexus AutoML in just a few simple steps:</p>
+
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-number">1</div>
+              <h4>Upload Dataset</h4>
+              <p>Drag and drop your CSV, Excel, or JSON file. Maximum file size: 500MB.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-number">2</div>
+              <h4>Select Target</h4>
+              <p>Choose the column you want to predict from the dropdown menu.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-number">3</div>
+              <h4>Train Models</h4>
+              <p>Click "Start Training" and let AutoML work its magic.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-number">4</div>
+              <h4>Get Results</h4>
+              <p>Review model performance and download your results.</p>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span>Example: Using the API</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>import requests
+
+# Prepare your data
+files = {'file': open('dataset.csv', 'rb')}
+data = {'target_column': 'price'}
+
+# Make API request
+response = requests.post(
+    'http://localhost:8000/automl',
+    files=files,
+    data=data
+)
+
+# Get results
+results = response.json()
+print(f"Best Model: {results['best_model']}")
+print(f"Score: {results['best_score']}")</code></pre>
+          </div>
+        </section>
+
+        
+        <section id="features" class="doc-section">
+          <h2>Features</h2>
+          
+          <div class="feature-grid">
+            <div class="feature-doc-card">
+              <div class="feature-doc-icon">🔄</div>
+              <h4>Automatic Preprocessing</h4>
+              <p>Handles missing values, encodes categorical variables, and scales features automatically.</p>
+            </div>
+            <div class="feature-doc-card">
+              <div class="feature-doc-icon">🎯</div>
+              <h4>Smart Model Selection</h4>
+              <p>Tests multiple algorithms including Random Forest, Gradient Boosting, SVM, and Neural Networks.</p>
+            </div>
+            <div class="feature-doc-card">
+              <div class="feature-doc-icon">⚡</div>
+              <h4>Parallel Processing</h4>
+              <p>Leverages multi-core processing to train models simultaneously for faster results.</p>
+            </div>
+            <div class="feature-doc-card">
+              <div class="feature-doc-icon">📊</div>
+              <h4>Performance Metrics</h4>
+              <p>Comprehensive evaluation with accuracy, precision, recall, and F1-score.</p>
+            </div>
+            <div class="feature-doc-card">
+              <div class="feature-doc-icon">🔒</div>
+              <h4>Secure Processing</h4>
+              <p>Data is encrypted in transit and processed in isolated containers.</p>
+            </div>
+            <div class="feature-doc-card">
+              <div class="feature-doc-icon">📈</div>
+              <h4>Model Comparison</h4>
+              <p>Visual comparison of all trained models to help you make informed decisions.</p>
+            </div>
+          </div>
+        </section>
+
+      
+        <section id="api-endpoint" class="doc-section">
+          <h2>API Endpoint</h2>
+          <p>The AutoML API provides a simple REST interface for programmatic access.</p>
+
+          <div class="endpoint-card">
+            <div class="method-badge post">POST</div>
+            <code class="endpoint-url">/automl</code>
+          </div>
+
+          <h3>Base URL</h3>
+          <div class="code-block">
+            <pre><code>http://localhost:8000</code></pre>
+          </div>
+
+          <h3>Authentication</h3>
+          <p>Currently, the API does not require authentication for local development. In production, API keys will be required.</p>
+        </section>
+
+        
+        <section id="request-format" class="doc-section">
+          <h2>Request Format</h2>
+          
+          <h3>Headers</h3>
+          <div class="code-block">
+            <pre><code>Content-Type: multipart/form-data
+Accept: application/json</code></pre>
+          </div>
+
+          <h3>Body Parameters</h3>
+          <table class="params-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>file</code></td>
+                <td>File</td>
+                <td>Yes</td>
+                <td>The dataset file (CSV, Excel, or JSON)</td>
+              </tr>
+              <tr>
+                <td><code>target_column</code></td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>Name of the column to predict</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Example Request</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span>cURL</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>curl -X POST http://localhost:8000/automl \
+  -F "file=@dataset.csv" \
+  -F "target_column=price" \
+  -H "Accept: application/json"</code></pre>
+          </div>
+        </section>
+
+        <section id="response-format" class="doc-section">
+          <h2>Response Format</h2>
+          
+          <h3>Success Response (200 OK)</h3>
+          <div class="code-block">
+            <pre><code>{
+  "best_model": "Random Forest",
+  "best_score": 0.9542,
+  "models": {
+    "Random Forest": 0.9542,
+    "Gradient Boosting": 0.9421,
+    "Logistic Regression": 0.8876,
+    "SVM": 0.9103
+  },
+  "report": "Classification Report
+..."
+}</code></pre>
+          </div>
+
+          <h3>Response Fields</h3>
+          <table class="params-table">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>best_model</code></td>
+                <td>String</td>
+                <td>Name of the best performing model</td>
+              </tr>
+              <tr>
+                <td><code>best_score</code></td>
+                <td>Float</td>
+                <td>Accuracy score of the best model (0-1)</td>
+              </tr>
+              <tr>
+                <td><code>models</code></td>
+                <td>Object</td>
+                <td>Dictionary of all models with their scores</td>
+              </tr>
+              <tr>
+                <td><code>report</code></td>
+                <td>String</td>
+                <td>Detailed classification report with metrics</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Error Response (4xx/5xx)</h3>
+          <div class="code-block">
+            <pre><code>{
+  "error": "Invalid file format. Please upload CSV, Excel, or JSON."
+}</code></pre>
+          </div>
+        </section>
+
+    
+        <section id="supported-models" class="doc-section">
+          <h2>Supported Models</h2>
+          <p>Nexus AutoML trains and evaluates the following machine learning algorithms:</p>
+
+          <div class="models-grid">
+            <div class="model-card">
+              <h4>🌳 Random Forest</h4>
+              <p>Ensemble learning method using multiple decision trees. Excellent for both classification and regression tasks.</p>
+              <span class="model-tag">Ensemble</span>
+            </div>
+            <div class="model-card">
+              <h4>🚀 Gradient Boosting</h4>
+              <p>Sequential ensemble technique that builds models to correct errors of previous models.</p>
+              <span class="model-tag">Ensemble</span>
+            </div>
+            <div class="model-card">
+              <h4>📈 Logistic Regression</h4>
+              <p>Linear model for binary and multi-class classification problems. Fast and interpretable.</p>
+              <span class="model-tag">Linear</span>
+            </div>
+            <div class="model-card">
+              <h4>🎯 Support Vector Machine</h4>
+              <p>Powerful classifier that finds optimal hyperplane for separating classes.</p>
+              <span class="model-tag">Kernel</span>
+            </div>
+            <div class="model-card">
+              <h4>🧠 Neural Network</h4>
+              <p>Multi-layer perceptron for complex pattern recognition and non-linear relationships.</p>
+              <span class="model-tag">Deep Learning</span>
+            </div>
+            <div class="model-card">
+              <h4>🌲 Decision Tree</h4>
+              <p>Tree-based model that makes decisions based on feature values. Highly interpretable.</p>
+              <span class="model-tag">Tree</span>
+            </div>
+          </div>
+        </section>
+
+      
+        <section id="tech-stack" class="doc-section">
+          <h2>Tech Stack</h2>
+          <p>Nexus AutoML is built with modern, battle-tested technologies:</p>
+
+          <div class="tech-grid">
+            <div class="tech-item">
+              <h4>Backend</h4>
+              <ul class="tech-list">
+                <li><strong>FastAPI</strong> - High-performance Python web framework</li>
+                <li><strong>scikit-learn</strong> - Machine learning library</li>
+                <li><strong>pandas</strong> - Data manipulation and analysis</li>
+                <li><strong>NumPy</strong> - Numerical computing</li>
+              </ul>
+            </div>
+            <div class="tech-item">
+              <h4>Frontend</h4>
+              <ul class="tech-list">
+                <li><strong>Vanilla JavaScript</strong> - Fast, lightweight, no dependencies</li>
+                <li><strong>HTML5</strong> - Modern semantic markup</li>
+                <li><strong>CSS3</strong> - Advanced styling with animations</li>
+                <li><strong>Google Fonts</strong> - Beautiful typography</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">🔧</div>
+            <div>
+              <h4>Version Information</h4>
+              <ul class="tech-list">
+                <li>Platform Version: 1.0.0</li>
+                <li>API Version: v1</li>
+                <li>Last Updated: August 2025</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="best-practices" class="doc-section">
+          <h2>Best Practices</h2>
+          
+          <h3>Data Preparation</h3>
+          <div class="warning-card">
+            <div class="warning-icon">⚠️</div>
+            <div>
+              <h4>Important Tips</h4>
+              <ul class="doc-list">
+                <li>Ensure your dataset has clear column headers</li>
+                <li>Remove or handle extreme outliers before upload</li>
+                <li>Aim for at least 100 rows for reliable results</li>
+                <li>Balance your target classes if possible</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>Model Selection</h3>
+          <ul class="doc-list">
+            <li><strong>Check Multiple Metrics:</strong> Don't rely solely on accuracy, review precision and recall</li>
+            <li><strong>Consider Interpretability:</strong> Simpler models may be better for explaining decisions</li>
+            <li><strong>Validate Results:</strong> Test the model on new data before deployment</li>
+            <li><strong>Monitor Performance:</strong> Regularly retrain models as new data becomes available</li>
+          </ul>
+
+          <h3>Performance Optimization</h3>
+          <div class="success-card">
+            <div class="success-icon">✅</div>
+            <div>
+              <h4>Optimization Tips</h4>
+              <ul class="doc-list">
+                <li>Use CSV format for faster processing</li>
+                <li>Remove unnecessary columns before upload</li>
+                <li>For large datasets (&gt;100K rows), consider sampling</li>
+                <li>Close other applications during training</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        
+        <footer class="doc-footer">
+          <p>Need help? Contact support at <a href="mailto:support@nexusautoml.com">support@nexusautoml.com</a></p>
+          <p class="doc-version">Documentation Version 1.0.0 • Last Updated August 2025</p>
+        </footer>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          
+          // Update active state
+          document.querySelectorAll('.doc-nav a').forEach(link => {
+            link.classList.remove('active');
+          });
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // Copy code functionality
+    function copyCode(button) {
+      const codeBlock = button.closest('.code-block').querySelector('code');
+      const text = codeBlock.textContent;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        button.textContent = 'Copied!';
+        setTimeout(() => {
+          button.textContent = 'Copy';
+        }, 2000);
+      });
+    }
+
+    // Update active nav item on scroll
+    const sections = document.querySelectorAll('.doc-section');
+    const navLinks = document.querySelectorAll('.doc-nav a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
+-->
