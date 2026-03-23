@@ -54,4 +54,4 @@ async def run_automl(
             content={"error": str(e), "type": type(e).__name__}
         )
 
-app.mount("/", StaticFiles(directory="automl-ui", html=True), name="ui")
+app.mount("/app", StaticFiles(directory="automl-ui", html=True), name="ui")
