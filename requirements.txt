@@ -11,3 +11,4 @@ fastapi
 uvicorn
 shap
 streamlit
+python-multipart
