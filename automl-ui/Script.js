@@ -155,7 +155,7 @@ document.getElementById('runBtn').addEventListener('click', async () => {
   form.append('target_column', target);
 
   try {
-    const resp = await fetch('http://localhost:8000/automl', {
+    const resp = await fetch('https://nexus-automl.onrender.com/automl', {
       method: 'POST',
       body: form,
       headers: { 'Accept': 'application/json' }
