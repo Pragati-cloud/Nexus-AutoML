@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import pandas as pd
 from automl.engine import run_automl_pipeline
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
