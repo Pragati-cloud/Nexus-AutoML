@@ -4,8 +4,19 @@ from fastapi.responses import JSONResponse
 import pandas as pd
 from automl.engine import run_automl_pipeline
 from fastapi.staticfiles import StaticFiles
-
+from fastapi.responses import RedirectResponse
+import os
 app = FastAPI()
+
+
+# Get absolute path (VERY IMPORTANT for Render)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UI_PATH = os.path.join(BASE_DIR, "automl-ui")
+
+# Redirect root → UI
+@app.get("/")
+def root():
+    return RedirectResponse(url="/app")
 
 # Enable CORS for frontend with more permissive settings
 app.add_middleware(
