@@ -90,11 +90,11 @@ function getApiBaseUrl() {
   if (window.location.protocol.startsWith('http')) {
     const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
     if (isLocalHost) {
-      return 'http://127.0.0.1:8001';
+      return 'https://nexus-automl.onrender.com';
     }
     return window.location.origin;
   }
-  return 'http://127.0.0.1:8001';
+  return 'https://nexus-automl.onrender.com';
 }
 
 // File handling
