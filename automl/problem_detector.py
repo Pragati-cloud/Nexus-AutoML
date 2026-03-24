@@ -10,38 +10,26 @@ def detect_problem_type(y):
     if isinstance(y, pd.Series):
         y = y.values
 
-    unique_values = np.unique(y)
-    n_unique = len(unique_values)
-    n_samples = len(y)
+    y_series = pd.Series(y)
+    n_samples = len(y_series)
+    n_unique = y_series.nunique(dropna=True)
 
-    # Check if target is numeric
-    try:
-        y_numeric = pd.to_numeric(y, errors='coerce')
-        is_numeric = not pd.isna(y_numeric).any()
-    except:
-        is_numeric = False
-
-    if not is_numeric:
-        # If not numeric, it's classification
+    # Non-numeric target -> classification
+    if not pd.api.types.is_numeric_dtype(y_series):
         problem_type = "classification"
     else:
-        # For numeric data, check various heuristics
-        if n_unique == 2:
-            # Binary case - could be classification or regression
-            # Check if values are 0/1 or other binary
-            if set(unique_values) == {0, 1} or set(unique_values) == {0.0, 1.0}:
-                problem_type = "classification"
-            else:
-                # Other binary values - likely classification
-                problem_type = "classification"
-        elif n_unique <= 10 and n_samples > 50:
-            # Few unique values relative to sample size - likely classification
+        unique_ratio = n_unique / max(n_samples, 1)
+
+        # Numeric target with very high cardinality is almost always regression.
+        if unique_ratio >= 0.5:
+            problem_type = "regression"
+        # Binary/very-low-cardinality numeric targets are classification.
+        elif n_unique <= 2:
             problem_type = "classification"
-        elif n_unique / n_samples < 0.1:
-            # Less than 10% unique values - likely classification
+        elif n_unique <= 20 and unique_ratio <= 0.1:
             problem_type = "classification"
         else:
-            # Many unique values - likely regression
+            # Prefer regression for continuous/high-cardinality numeric targets.
             problem_type = "regression"
 
     print(f"Detected Problem Type: {problem_type} (unique values: {n_unique}, total samples: {n_samples})")

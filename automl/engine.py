@@ -9,9 +9,16 @@ from automl.feature_selector import select_features
 from automl.model_trainer import train_models
 from automl.model_selector import select_best_model
 from automl.report_generator import generate_report
+from automl.cache import get_hash, load_cache, save_cache
 
 
 def run_automl_pipeline(df, target_column):
+    cache_key = get_hash(df, target_column)
+
+    cached = load_cache(cache_key)
+    if cached:
+        print("Loaded from cache")
+        return cached
 
     analyze_dataset(df, target_column)
 
@@ -35,9 +42,11 @@ def run_automl_pipeline(df, target_column):
 
     report = generate_report(df, problem_type, results, best_model, best_score)
 
-    return {
+    output = {
         "results": results,
         "best_model": best_model,
         "best_score": best_score,
         "report": report
     }
+    save_cache(cache_key, output)
+    return output

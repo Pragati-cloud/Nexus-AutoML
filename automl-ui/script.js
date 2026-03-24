@@ -86,6 +86,17 @@ function exportJSON(data) {
 let currentFile = null;
 let currentResults = null;
 
+function getApiBaseUrl() {
+  if (window.location.protocol.startsWith('http')) {
+    const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (isLocalHost) {
+      return 'http://127.0.0.1:8001';
+    }
+    return window.location.origin;
+  }
+  return 'http://127.0.0.1:8001';
+}
+
 // File handling
 function handleFile(file) {
   currentFile = file;
@@ -155,7 +166,7 @@ document.getElementById('runBtn').addEventListener('click', async () => {
   form.append('target_column', target);
 
   try {
-    const resp = await fetch('https://nexus-automl.onrender.com/automl', {
+    const resp = await fetch(`${getApiBaseUrl()}/automl`, {
       method: 'POST',
       body: form,
       headers: { 'Accept': 'application/json' }
@@ -186,6 +197,26 @@ document.getElementById('runBtn').addEventListener('click', async () => {
     showToast('Error running AutoML. Please try again.', 'error');
   }
 });
+
+function downloadBestModel(modelDownloadUrl) {
+  if (!modelDownloadUrl) {
+    showToast('Model download URL not available.', 'warning');
+    return;
+  }
+
+  const normalizedUrl = modelDownloadUrl.startsWith('http')
+    ? modelDownloadUrl
+    : `${getApiBaseUrl()}${modelDownloadUrl.startsWith('/') ? '' : '/'}${modelDownloadUrl}`;
+
+  const anchor = document.createElement('a');
+  anchor.href = normalizedUrl;
+  anchor.download = '';
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+
+  showToast('Downloading best model...', 'success');
+}
 
 // ── SVG icon helpers ─────────────────────────────────────────────────────────
 // Keeping SVGs in JS functions avoids any risk of broken inline strings
@@ -253,6 +284,10 @@ function renderResults(data) {
         <p>Your models have been trained and evaluated successfully</p>
       </div>
       <div class="header-actions">
+        <button class="btn-download" data-testid="download-model-btn"
+          onclick="downloadBestModel('${data.model_download_url || ''}')">
+          ${iconDownload()} Download Model (.pkl)
+        </button>
         <button class="btn-download" data-testid="download-report-btn"
           onclick="downloadReport('${data.best_model}', '${data.best_score.toFixed(4)}', decodeURIComponent('${safeReport}'))">
           ${iconDownload()} Download Report

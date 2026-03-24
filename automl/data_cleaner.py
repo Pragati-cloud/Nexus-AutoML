@@ -3,6 +3,10 @@ from sklearn.preprocessing import LabelEncoder
 
 
 def clean_data(df, target_column):
+    # Remove rows where target is missing; supervised training cannot use NaN labels.
+    df = df.dropna(subset=[target_column]).copy()
+    if df.empty:
+        raise ValueError("All rows were removed because target column contains only missing values.")
 
     # split features and target
     X = df.drop(columns=[target_column])
